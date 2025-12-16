@@ -7,27 +7,82 @@ if (!isset($_SESSION['company_id'])) {
     exit;
 }
 
+$categories = mysqli_query($conn, "SELECT * FROM job_categories");
+
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $title = $_POST['title'];
     $desc  = $_POST['description'];
     $min   = $_POST['salary_min'];
     $max   = $_POST['salary_max'];
-
     $company_id = $_SESSION['company_id'];
 
-    mysqli_query($conn, "
-        INSERT INTO jobs (job_id, company_id, title, description, salary_min, salary_max, is_active)
-        VALUES (UUID(), '$company_id', '$title', '$desc', '$min', '$max', 1)
-    ");
+    $query = "INSERT INTO jobs (company_id, category_id, title, description, job_type, salary_min, salary_max, is_active)
+              VALUES ('$company_id', '$cat_id', '$title', '$desc', '$type', '$min', '$max', 1)";
 
-    header("Location: company_jobs.php");
+    if (mysqli_query($conn, $query)) {
+        header("Location: company_jobs.php");
+    } else {
+        echo "Error: " . mysqli_error($conn);
+    }
 }
 ?>
 
-<form method="POST" class="container mt-5">
-    <input name="title" class="form-control mb-2" placeholder="Job Title" required>
-    <textarea name="description" class="form-control mb-2" placeholder="Description" required></textarea>
-    <input name="salary_min" class="form-control mb-2" placeholder="Salary Min">
-    <input name="salary_max" class="form-control mb-2" placeholder="Salary Max">
-    <button class="btn btn-primary">Post Job</button>
-</form>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Post Job | AyoKerja</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+<div class="container mt-5">
+    <div class="card p-4 shadow-sm">
+        <h3 class="mb-4">Post New Job</h3>
+        <form method="POST">
+            <div class="mb-3">
+                <label>Job Title</label>
+                <input name="title" class="form-control" required>
+            </div>
+            
+            <div class="mb-3">
+                <label>Category</label>
+                <select name="category_id" class="form-control" required>
+                    <option value="">Select Category</option>
+                    <?php while($c = mysqli_fetch_assoc($categories)) { ?>
+                        <option value="<?= $c['category_id'] ?>"><?= $c['category_name'] ?></option>
+                    <?php } ?>
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label>Job Type</label>
+                <select name="job_type" class="form-control">
+                    <option value="Full-time">Full-time</option>
+                    <option value="Part-time">Part-time</option>
+                    <option value="Remote">Remote</option>
+                    <option value="Internship">Internship</option>
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label>Description</label>
+                <textarea name="description" class="form-control" rows="4" required></textarea>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label>Min Salary</label>
+                    <input type="number" name="salary_min" class="form-control">
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label>Max Salary</label>
+                    <input type="number" name="salary_max" class="form-control">
+                </div>
+            </div>
+            
+            <button type="submit" class="btn btn-primary">Post Job</button>
+            <a href="company_dashboard.php" class="btn btn-secondary">Cancel</a>
+        </form>
+    </div>
+</div>
+</body>
+</html>

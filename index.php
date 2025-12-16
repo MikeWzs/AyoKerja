@@ -4,33 +4,68 @@
 <head>
     <meta charset="UTF-8">
     <title>AyoKerja | Job Portal</title>
-
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
     <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
 
-<nav class="navbar navbar-dark bg-dark fixed-top shadow">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top shadow">
     <div class="container-fluid px-4">
-
-        <a class="navbar-brand fw-bold brand-title" href="#">
+        
+        <a class="navbar-brand fw-bold brand-title" href="index.php">
             AyoKerja
         </a>
 
-        <div class="d-flex align-items-center ms-auto">
-            <?php if (isset($_SESSION['user_id'])) { ?>
-                <span class="text-white me-3">
-                    <?= $_SESSION['full_name'] ?>
-                </span>
-                <a href="pages/logout.php" class="btn btn-danger btn-sm">
-                    Logout
-                </a>
-            <?php } else { ?>
-                <a href="pages/login.php" class="btn btn-outline-light btn-sm">
-                    Login
-                </a>
-            <?php } ?>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto align-items-center">
+                
+                <li class="nav-item me-3">
+                    <a class="nav-link text-white" href="pages/jobs.php">Explore Jobs</a>
+                </li>
+
+                <?php if (isset($_SESSION['user_id'])) { ?>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle text-white fw-bold btn btn-outline-secondary border-0" href="#" role="button" data-bs-toggle="dropdown">
+                            <?= $_SESSION['full_name'] ?>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end dropdown-menu-dark shadow">
+                            
+                            <?php if ($_SESSION['role'] == 'company') { ?>
+                                <li><h6 class="dropdown-header">Company Access</h6></li>
+                                <li><a class="dropdown-item" href="pages/company_dashboard.php">Dashboard</a></li>
+                                <li><a class="dropdown-item" href="pages/company_jobs.php">My Jobs</a></li>
+                                <li><a class="dropdown-item" href="pages/profile.php">Edit Profile</a></li>
+                            
+                            <?php } elseif ($_SESSION['role'] == 'admin') { ?>
+                                <li><h6 class="dropdown-header">Admin Panel</h6></li>
+                                <li><a class="dropdown-item" href="pages/admin_dashboard.php">Dashboard</a></li>
+
+                            <?php } else { ?>
+                                <li><h6 class="dropdown-header">Job Seeker</h6></li>
+                                <li><a class="dropdown-item" href="pages/profile.php">My Profile</a></li>
+                                <li><a class="dropdown-item" href="pages/my_applications.php">My Applications</a></li>
+                                <li><a class="dropdown-item" href="pages/notifications.php">Notifications</a></li>
+                            <?php } ?>
+
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item text-danger" href="pages/logout.php">Logout</a></li>
+                        </ul>
+                    </li>
+
+                <?php } else { ?>
+                    <li class="nav-item">
+                        <a href="pages/login.php" class="btn btn-outline-light btn-sm me-2">Login</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="pages/register.php" class="btn btn-primary btn-sm">Register</a>
+                    </li>
+                <?php } ?>
+            </ul>
         </div>
 
     </div>
@@ -66,7 +101,6 @@
                 <p>All jobs are posted by verified companies</p>
             </div>
         </div>
-
         <div class="col-md-4">
             <div class="feature-card">
                 <i class="bi bi-people-fill"></i>
@@ -74,7 +108,6 @@
                 <p>Top companies from various industries</p>
             </div>
         </div>
-
         <div class="col-md-4">
             <div class="feature-card">
                 <i class="bi bi-graph-up-arrow"></i>
@@ -94,7 +127,7 @@
                 <a href="pages/jobs.php" class="btn btn-primary">View Jobs</a>
             </div>
             <div class="col-md-6 text-center">
-                <img src="assets/img/workers.png" class="img-fluid rounded shadow">
+                <img src="assets/img/workers.png" class="img-fluid rounded shadow" alt="Workers">
             </div>
         </div>
     </div>
@@ -104,7 +137,9 @@
     <p class="mb-0">&copy; 2025 AyoKerja. All rights reserved.</p>
 </footer>
 
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 <script>
+// Efek Ketik Asli
 const text = "Connecting talented people with trusted companies";
 let index = 0;
 

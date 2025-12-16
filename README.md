@@ -1,2 +1,0 @@
-# AyoKerja
-FinPro - DS Lab

@@ -229,3 +229,47 @@ body {
         transform: translateY(0);
     }
 }
+
+/* PROFILE PAGE STYLES */
+.profile-header {
+    background: linear-gradient(135deg, #0d6efd 0%, #000000 100%);
+    height: 180px;
+    border-radius: 0 0 20px 20px;
+    position: relative;
+    margin-bottom: 80px;
+}
+
+.profile-img-container {
+    position: absolute;
+    bottom: -60px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 140px;
+    height: 140px;
+    border-radius: 50%;
+    border: 5px solid #212529; /* Dark border matching body */
+    overflow: hidden;
+    background: #fff;
+}
+
+.profile-img-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.upload-icon {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    background: #ffc107;
+    color: #000;
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    border: 2px solid #fff;
+}
