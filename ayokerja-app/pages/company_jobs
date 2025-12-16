@@ -1,0 +1,26 @@
+<?php
+session_start();
+include "../config/database.php";
+
+$company_id = $_SESSION['company_id'];
+
+$result = mysqli_query($conn, "
+    SELECT * FROM jobs WHERE company_id='$company_id'
+");
+?>
+
+<div class="container mt-5">
+    <h3>My Jobs</h3>
+
+    <?php while ($job = mysqli_fetch_assoc($result)) { ?>
+        <div class="card mb-2 p-3">
+            <b><?= $job['title'] ?></b><br>
+            Status: <?= $job['is_active'] ? 'Active' : 'Inactive' ?>
+
+            <a href="toggle_job.php?id=<?= $job['job_id'] ?>"
+               class="btn btn-sm btn-warning mt-2">
+                Toggle Status
+            </a>
+        </div>
+    <?php } ?>
+</div>
